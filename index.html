@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورقة عمل تفاعلية - الحاسوب وتكنولوجيا المعلومات</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --secondary: #0d9488;
+            --accent: #d97706;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #cbd5e1;
+            --success: #16a34a;
+            --error: #dc2626;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px double var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+
+        .header h2 {
+            color: var(--secondary);
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        .student-info {
+            display: flex;
+            gap: 20px;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .student-info div {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .student-info label {
+            font-weight: bold;
+            color: var(--primary);
+            white-space: nowrap;
+        }
+
+        .student-info input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .question-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .question-title {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border-right: 4px solid var(--accent);
+            padding-right: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--primary);
+        }
+
+        th.highlight-head {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        th.highlight-head-2 {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            resize: vertical;
+            font-size: 14px;
+        }
+
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 15px;
+        }
+
+        .btn-submit { background-color: var(--primary); color: white; }
+        .btn-submit:hover { background-color: #1d4ed8; }
+
+        .btn-reset { background-color: #64748b; color: white; }
+        .btn-reset:hover { background-color: #475569; }
+
+        .btn-print { background-color: var(--secondary); color: white; }
+        .btn-print:hover { background-color: #0f766e; }
+
+        .result-box {
+            display: none;
+            background: #e0f2fe;
+            border: 2px dashed var(--primary-light);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .result-score {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .feedback-correct { border-color: var(--success) !important; background-color: #f0fdf4 !important; }
+        .feedback-wrong { border-color: var(--error) !important; background-color: #fef2f2 !important; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; width: 100%; max-width: 100%; }
+            .actions, .result-box { display: none !important; }
+            textarea, input { border: 1px solid #94a3b8 !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>قسم الحوسبة وتكنولوجيا المعلومات</h1>
+        <h2>المستوى: الحادي عشر (المصار العلمي والإنسانيات)<br>الدرس: البيانات والمعلومات والمعرفة - 2</h2>
+    </div>
+
+    <div class="student-info">
+        <div>
+            <label>الاسم:</label>
+            <input type="text" id="studentName" placeholder="أدخل اسم الطالب...">
+        </div>
+        <div>
+            <label>الصف:</label>
+            <input type="text" id="studentClass" placeholder="أدخل الصف...">
+        </div>
+    </div>
+
+    <!-- السؤال الأول -->
+    <div class="question-card">
+        <div class="question-title">السؤال الأول : أكمل الجدول التالي:</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 20%;"></th>
+                    <th class="highlight-head" style="width: 40%;">البيانات الثابتة</th>
+                    <th class="highlight-head" style="width: 40%;">البيانات المتغيرة</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>التعريف</th>
+                    <td><textarea id="q1_def_fixed" rows="3" placeholder="اكتب تعريف البيانات الثابتة..."></textarea></td>
+                    <td><textarea id="q1_def_var" rows="3" placeholder="اكتب تعريف البيانات المتغيرة..."></textarea></td>
+                </tr>
+                <tr>
+                    <th>مثال</th>
+                    <td><textarea id="q1_ex_fixed" rows="2" placeholder="اكتب مثالاً..."></textarea></td>
+                    <td><textarea id="q1_ex_var" rows="2" placeholder="اكتب مثالاً..."></textarea></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- السؤال الثاني -->
+    <div class="question-card">
+        <div class="question-title">السؤال الثاني : عرف ترميز البيانات:</div>
+        <textarea id="q2_answer" rows="3" placeholder="أدخل تعريف ترميز البيانات هنا..."></textarea>
+    </div>
+
+    <!-- السؤال الثالث -->
+    <div class="question-card">
+        <div class="question-title">السؤال الثالث : عرف كل من التالي:</div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="highlight-head-2" style="width: 50%;">الرموز الشريطية (Barcode)</th>
+                    <th class="highlight-head-2" style="width: 50%;">رمز الاستجابة السريع (QR Code)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><textarea id="q3_barcode" rows="4" placeholder="اكتب تعريف الرموز الشريطية..."></textarea></td>
+                    <td><textarea id="q3_qr" rows="4" placeholder="اكتب تعريف رمز الاستجابة السريع..."></textarea></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- السؤال الرابع -->
+    <div class="question-card">
+        <div class="question-title">السؤال الرابع : اذكر 2 لكل مما يلي:</div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="highlight-head-2" style="width: 50%;">إيجابيات ترميز البيانات</th>
+                    <th class="highlight-head-2" style="width: 50%;">تحديات ترميز البيانات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" id="q4_pos_1" placeholder="1. الإيجابية الأولى..."></td>
+                    <td><input type="text" id="q4_neg_1" placeholder="1. التحدي الأول..."></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="q4_pos_2" placeholder="2. الإيجابية الثانية..."></td>
+                    <td><input type="text" id="q4_neg_2" placeholder="2. التحدي الثاني..."></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- الإجراءات -->
+    <div class="actions">
+        <button class="btn btn-submit" onclick="checkAnswers()">تسليم وإظهار النتيجة</button>
+        <button class="btn btn-reset" onclick="resetForm()">إعادة تعيين</button>
+        <button class="btn btn-print" onclick="window.print()">طباعة الورقة</button>
+    </div>
+
+    <div id="resultBox" class="result-box">
+        <div class="result-score" id="scoreText">0 / 100</div>
+        <p id="feedbackText">تم تقييم الإجابات بناءً على الكلمات المفتاحية الأساسية.</p>
+    </div>
+</div>
+
+<script>
+    const keywords = {
+        q1_def_fixed: ["لا تتغير", "ثابتة", "تتغير نادر", "تتغير نادرا", "مثل تاريخ الميلاد"],
+        q1_def_var: ["تتغير", "مستمر", "تتجدد", "مثل العمر", "درجة الحرارة"],
+        q1_ex_fixed: ["تاريخ الميلاد", "مكان الميلاد", "الاسم"],
+        q1_ex_var: ["العمر", "درجة الحرارة", "الرصيد", "السعر"],
+        q2_answer: ["تمثيل", "رمز", "أرقام", "حروف", "تغيير البيانات", "شكل"],
+        q3_barcode: ["خطوط", "شريطية", "أعمدة", "سمك", "متوازية"],
+        q3_qr: ["مربع", "مربعات", "استجابة سريعة", "ثنائي الأبعاد", "مصفوفة"],
+        q4_pos_1: ["سرعة", "دقة", "توفير المساحة", "تسريع"],
+        q4_pos_2: ["سرعة", "دقة", "توفير المساحة", "تسريع"],
+        q4_neg_1: ["غموض", "فقدان التفاصيل", "صعوبة التعديل", "خطأ"],
+        q4_neg_2: ["غموض", "فقدان التفاصيل", "صعوبة التعديل", "خطأ"]
+    };
+
+    function checkAnswers() {
+        let score = 0;
+        let total = Object.keys(keywords).length;
+
+        for (let key in keywords) {
+            let element = document.getElementById(key);
+            let val = element.value.trim().toLowerCase();
+            let isCorrect = keywords[key].some(kw => val.includes(kw.toLowerCase()));
+
+            if (val.length > 2 && isCorrect) {
+                score++;
+                element.classList.add("feedback-correct");
+                element.classList.remove("feedback-wrong");
+            } else if (val.length > 0) {
+                element.classList.add("feedback-wrong");
+                element.classList.remove("feedback-correct");
+            } else {
+                element.classList.remove("feedback-correct", "feedback-wrong");
+            }
+        }
+
+        let percentage = Math.round((score / total) * 100);
+        document.getElementById("scoreText").innerText = "النتيجة: " + percentage + "% (" + score + " من " + total + ")";
+        document.getElementById("resultBox").style.display = "block";
+    }
+
+    function resetForm() {
+        document.querySelectorAll("input, textarea").forEach(el => {
+            el.value = "";
+            el.classList.remove("feedback-correct", "feedback-wrong");
+        });
+        document.getElementById("resultBox").style.display = "none";
+    }
+</script>
+
+</body>
+</html>
